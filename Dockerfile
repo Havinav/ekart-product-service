@@ -1,14 +1,7 @@
-# Use an official Java runtime as a parent image
-FROM amazoncorretto:21.0.4-alpine3.18
-
-# Set the working directory in the container
-WORKDIR /app
-
-# Copy the JAR file into the container
-COPY target/ekart-product-service.jar app.jar
-
-# Expose the port that the application will run on
+FROM maven:3.9.4-eclipse-temurin-21-alpine AS build
+COPY . .
+RUN mvn clean package -DskipTests
+FROM openjdk:21-jdk-slim
+COPY --from=build /target/ekart-product-service-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-
-# Run the JAR file
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
