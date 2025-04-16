@@ -37,4 +37,13 @@ public class ProductService {
         );
         return mongoTemplate.find(query, Products.class);
     }
+    public Products searchProduct(String searchTerm) {
+        Query query = new Query();
+        query.addCriteria(
+                new Criteria().orOperator(
+                        Criteria.where("name").regex(searchTerm, "i")
+                )
+        );
+        return mongoTemplate.find(query, Products.class).get(0);
+    }
 }

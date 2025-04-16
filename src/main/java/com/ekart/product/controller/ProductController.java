@@ -28,4 +28,10 @@ public class ProductController {
         List<Products> products = productService.searchProducts(term);
         return ResponseEntity.ok(products);
     }
+
+    @GetMapping("/productsearch")
+    public ResponseEntity<Products> searchProduct(@RequestParam String term) {
+        Products products = productService.searchProduct(term);
+        return ResponseEntity.ok(products);
+    }
 }
